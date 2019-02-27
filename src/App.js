@@ -1,25 +1,38 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Feed from './components/Feed';
 
 class App extends Component {
+  state = { contacts: [] };
+
+
+  componentDidMount() {
+    fetch("https://api.randomuser.me/?results=50")
+      .then(response => response.json())
+      .then(parsedResponse =>
+        parsedResponse.results.map(user => ({
+          name: `${user.name.first} ${user.name.last}`,
+          email: user.email,
+          thumbnail: user.picture.thumbnail
+        }))
+      )
+      .then(contacts => this.setState({ contacts }));
+  }
+
   render() {
+    //debugger;
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <nav className="navbar navbar-expand-sm bg-dark navbar-dark">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <a className="nav-link" href="#">Hoc demo app</a>
+            </li>
+          </ul>
+        </nav>
+        <Feed contacts={this.state.contacts} />
       </div>
     );
   }
