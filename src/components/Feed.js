@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import FeedItem from './FeedItem';
+import Loading from './Hoc/Loading';
 
-export default class Feed extends Component {
+class Feed extends Component {
     render() {
+        const { loadingTime } = this.props;
         return (
-            <div className="justify-content-center aligh-items-center">
+
+            <div className="feed">
                 <FeedItem contacts={this.props.contacts} />
+                <p>Loading time {loadingTime} seconds</p>
             </div>
         )
     }
 }
+
+export default Loading("contacts")(Feed)
